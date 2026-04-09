@@ -1,0 +1,13 @@
+package com.example.aula_test;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class AulaTestApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(AulaTestApplication.class, args);
+	}
+
+}
