@@ -6,6 +6,6 @@ public record AssentoResponse (
 
     long id, 
     String codigo,
-    Funcionario funcionario
+    String funcionarioNome
 ){
 }

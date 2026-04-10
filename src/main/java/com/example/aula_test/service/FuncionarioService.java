@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.aula_test.dto.funcionario.FuncionarioResponse;
+import com.example.aula_test.dto.funcionario.FuncionarioResponseAssento;
 import com.example.aula_test.dto.funcionario.FuncionarioResquest;
 import com.example.aula_test.mapper.FuncionarioMapper;
 import com.example.aula_test.model.Assento;
@@ -23,12 +24,12 @@ public class FuncionarioService {
     private final FuncionarioMapper mapper;
     
     public FuncionarioResponse create(FuncionarioResquest dto){
-        
-        Assento assento = assentoRepository.findById(dto.idAssento()).orElseThrow(()-> new RuntimeException("Assento não Existe!"));
-
         Funcionario funcionario = mapper.toEntity(dto);
-        funcionario.setAssento(assento);
 
+        if(dto.idAssento() != null){
+        Assento assento = assentoRepository.findById(dto.idAssento()).orElseThrow(()-> new RuntimeException("Assento não Existe!")); 
+        funcionario.setAssento(assento);
+    }
         return mapper.toResponse(repository.save(funcionario));
     }
 
@@ -51,5 +52,21 @@ public class FuncionarioService {
 
     public void delete (long id){
         repository.deleteById(id);
+    }
+
+    public FuncionarioResponseAssento associarFuncionarioAssento(Long idFuncionario, 
+        Long idAssento){
+            
+        Funcionario funcionario = repository.findById(idFuncionario)
+            .orElseThrow(() -> new RuntimeException("Funcionário não existe!"));
+
+        Assento assento = assentoRepository.findById(idAssento)
+            .orElseThrow(() -> new RuntimeException("Assento não existe!"));
+
+        funcionario.setAssento(assento);
+        
+        return mapper.toResponseFuncionaioAssento(
+            repository.save(funcionario, assento)
+        );
     }
 }

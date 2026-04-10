@@ -22,13 +22,8 @@ public class AssentoService {
     private final AssentoMapper mapper;
     private final FuncionarioRepository funcionarioRepository;
 
-    public AssentoResponse create(AssentoRequest dto){
-        Funcionario funcionario = funcionarioRepository.findById(dto.idFuncionario()).orElseThrow(()-> new RuntimeException("Funcionario não encontrado!"));
-
-        Assento assento = mapper.toEntity(dto);
-        assento.setFuncionario(funcionario);
-                
-        return mapper.toResponse(assento);
+    public AssentoResponse create(AssentoRequest dto){   
+        return mapper.toResponse(repository.save(mapper.toEntity(dto)));
     }
 
     public List<AssentoResponse> listAll(){

@@ -19,7 +19,7 @@ public class AssentoMapper {
         return new AssentoResponse(
             assento.getId(),
             assento.getCodigo(),
-            assento.getFuncionario()
+            assento.getFuncionario().getNome()
         );
     }
 }
